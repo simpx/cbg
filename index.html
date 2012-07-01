@@ -1,0 +1,70 @@
+<html>
+  <head>
+  <meta charset="utf-8">
+  <title>藏宝阁辅助</title>
+  <script type="text/javascript" src="http://res.xyq.cbg.163.com/js/mootools-core-1.3.2.js"></script>
+  <script type="text/javascript" src="js/helper.js"></script>
+  <script type="text/javascript">
+    var CgiRootUrl = 'http://xyq.cbg.163.com/cgi-bin';
+    var ResUrl = 'http://res.xyq.cbg.163.com';
+    var StaticFileConfig = {"is_using" : true,"res_root" : "/static_file","max_page" : 1};
+    var ServerInfo = {"area_id" : "3",
+                      "area_name" : "北京1区",
+                      "server_id" : "527",
+                      "server_name" : "生日快乐"};
+  </script>
+  <script type="text/javascript">
+    function anonymous_login(){
+      var image_value = $("image_validate").value;
+      login(image_value);
+    }
+    function run(){
+      clear_tbody();
+      load_els(1);
+    }
+  </script>
+  </head>
+  <body>
+  <iframe src="http://xyq.cbg.163.com/cgi-bin/login.py?act=show_login&area_id=3&area_name=%E5%8C%97%E4%BA%AC1%E5%8C%BA&server_id=527&server_name=%E7%94%9F%E6%97%A5%E5%BF%AB%E4%B9%90" />
+  <div id="login_form" style="display:none">
+    <form name="anonymous_form" method="post" action="http://xyq.cbg.163.com/cgi-bin/login.py">
+      <table >
+        <tbody>
+          <tr>
+            <th width="90">服务器id</th>
+            <td> <input name="server_id" value=""></td>
+          </tr>
+          <tr>
+            <th width="90">服务器名</th>
+            <td> <input name="server_name" value=""></td>
+          </tr>
+          <tr>
+            <th width="90">Next Url</th>
+            <td> <input name="next_url" value=""></td>
+          </tr>
+          <tr>
+            <th width="90">服务器名</th>
+            <td> <input name="server_name" value=""></td>
+          </tr>
+          <tr>
+            <th></th>
+            <td><img id="validate_img" alt="验证码" style="cursor:pointer;" src="http://xyq.cbg.163.com/cgi-bin/create_validate_image.py?stamp=0.036652993177995086"></td>
+          </tr>
+          <tr>
+            <th width="90">验证码</th>
+            <td><input type="text" tabindex="3" class="txt1" size="24" id="image_validate" name="image_value"></td>
+          </tr>
+        </tbody>
+      </table>
+      <input type="button" value="匿名浏览" onclick="anonymous_login()">
+    </form>
+  </div>
+  <div>
+    <input type="button" value="run" onclick="run()">
+    <table id="soldList">
+      <tbody>
+      </tbody>
+    </table>
+  </div>
+  </body>
+</html>

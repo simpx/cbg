@@ -1,23 +1,41 @@
 function found(equip){
-    return is_xiaoguang(equip) || is_daguang(equip)
+    return is_xiaoguang(equip) || is_daguang(equip);
 }
 function clear_tbody(){
     tbody = $$('#soldList>tbody')[0];
-    tbody.empty();
-    tbody.set('html', '<tr><th width="70">图片</th><th>名称</th>'+
-                      '<th width="60">等级</th><th width="110">价格</th>'+
-                      '<th width="70">购买要求</th> '+
-                      '<th width="120">出售剩余时间</th> <th width="70"></th></tr>');
-    $$('.pages')[0].empty();
+    if(tbody){
+        tbody.empty();
+        tbody.set('html', '<tr><th width="70">图片</th><th>名称</th>'+
+                        '<th width="60">等级</th><th width="110">价格</th>'+
+                        '<th width="70">购买要求</th> '+
+                        '<th width="120">出售剩余时间</th> <th width="70"></th></tr>');
+        $$('.pages')[0].empty();
+    }
 }
-function load_els(page_num){
+function login(value){
+    var action = 'http://xyq.cbg.163.com/cgi-bin/login.py';
+    var next_url = '/cgi-bin/equipquery.py?act=query&server_id=527&areaid=3&page=1&kind_id=2&query_order=price+DESC&server_name=%C9%FA%C8%D5%BF%EC%C0%D6&kind_depth=2';
+    var args = 'act=do_anon_auth&server_id=252&server_name=扬美古镇&image_value=' + value;
+    var request = new Request.HTML({
+        url: action,
+        evalScripts: false,
+        onSuccess: function(responseTree, responseElements, responseHTML){
+            console.log(responseHTML);
+        }
+    }).post(args);
+}
+function load_els(page_num, found){
     var container = $$('#soldList>tbody')[0];
     var query_url = 'http://xyq.cbg.163.com/cgi-bin/equipquery.py';
     var args = 'act=query&kind_id=2&query_order=price+DESC&server_id='+ServerInfo['server_id']+'&page='+page_num;
-    var request = new Request.HTML({
+    request = new Request.HTML({
         url: query_url,
         evalScripts: false,
-        onSuccess: function(responseTree){
+        onSuccess: function(responseTree, responseElements, responseHTML){
+            console.log(responseHTML);
+            if(responseHTML.match(/请输入匿名浏览验证码/)){
+                return;
+            }
             nodes = responseTree[45].getElementById('soldList').getElementsByTagName('tr');
             els = Array.from(nodes).slice(1);
             els.each(function(el, index){
@@ -257,7 +275,3 @@ function to_pinyin(str){
 }
 clear_tbody();
 load_els(1);
-load_els(2);
-load_els(3);
-load_els(4);
-load_els(5);
